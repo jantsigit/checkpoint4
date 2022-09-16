@@ -17,17 +17,27 @@ async function readAllTableware() {
   return res.rows
 }
 
-async function createTableware(nimi, maara) {
-  await pool.query("INSERT INTO tableware (name, qty) VALUES ($1, $2)", [
-    nimi,
-    maara,
-  ])
+async function createTableware(nimi, maara, officeID) {
+  await pool.query(
+    "INSERT INTO tableware (name, qty, office_id) VALUES ($1, $2, $3)",
+    [nimi, maara, officeID]
+  )
   console.log(`Lisätty  ${nimi} ${maara} kpl tableware tauluun`)
 }
 
-createTableware("veitsi", 10)
-
+createTableware("kattila", 3, 3)
 //timeout jotta uusin päivitys näkyy myös
+/*
 setTimeout(() => {
   readAllTableware()
-}, 2000)
+}, 2000)*/
+
+async function createOffice(name, location, startYear) {
+  await pool.query(
+    "INSERT INTO office (name, location, starting_year) VALUES ($1, $2, $3)",
+    [name, location, startYear]
+  )
+  console.log(`Lisätty  ${name} ${location} ${startYear} office tauluun`)
+}
+
+//createOffice("Academy Germany", "Munchen", 2018)
