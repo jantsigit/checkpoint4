@@ -13,16 +13,21 @@ const pool = new Pool({
 
 async function readAllTableware() {
   const res = await pool.query("SELECT * FROM tableware")
-  //console.log(res)
+  console.log(res.rows)
   return res.rows
 }
 
-async function createTableware() {
-  await pool.query("INSERT INTO food (type, name, price) VALUES ($1, $2, $3)", [
-    "fruit",
-    fruit.name,
-    fruit.price,
+async function createTableware(nimi, maara) {
+  await pool.query("INSERT INTO tableware (name, qty) VALUES ($1, $2)", [
+    nimi,
+    maara,
   ])
+  console.log(`Lisätty  ${nimi} ${maara} kpl tableware tauluun`)
 }
 
-readAllTableware()
+createTableware("veitsi", 10)
+
+//timeout jotta uusin päivitys näkyy myös
+setTimeout(() => {
+  readAllTableware()
+}, 2000)
