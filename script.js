@@ -40,10 +40,17 @@ async function deleteTableware(id) {
   console.log(`Poistettu ID:${id} tableware taulusta`)
 }
 
+// TABLEWAREN FUNKTIOT
 //readAllTableware()
 //deleteTableware(12)
 //updateTableware(1, "lautanen", 3, 2)
 //createTableware("kattila", 3, 3)
+
+async function readAllOffices() {
+  const res = await pool.query("select * from office")
+  console.log(res.rows)
+  return res.rows
+}
 
 async function createOffice(name, location, startYear) {
   await pool.query(
@@ -53,4 +60,21 @@ async function createOffice(name, location, startYear) {
   console.log(`Lisätty  ${name} ${location} ${startYear} office tauluun`)
 }
 
-//createOffice("Academy Germany", "Munchen", 2018)
+async function updateOffice(id, nimi, lokaatio, startYear) {
+  await pool.query(
+    "UPDATE office SET name=$2, location=$3, starting_year=$4 WHERE id = $1",
+    [id, nimi, lokaatio, startYear]
+  )
+  console.log(`Muutettu  ID:${id} tietoja office taulussa`)
+}
+
+async function deleteOffice(id) {
+  await pool.query("DELETE FROM office WHERE id=$1", [id])
+  console.log(`Poistettu ID:${id} office taulusta`)
+}
+
+//OFFICEN FUNKTIOT
+//createOffice("Academy Norway", "Oslo", 2022)
+//readAllOffices()
+//updateOffice(1, "Brights Finland", "Espoo", 2017)
+//deleteOffice(4)
